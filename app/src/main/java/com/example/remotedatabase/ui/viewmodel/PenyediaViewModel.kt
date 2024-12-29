@@ -1,5 +1,7 @@
 package com.example.remotedatabase.ui.viewmodel
 
+import android.os.Build
+import androidx.annotation.RequiresExtension
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
@@ -8,6 +10,7 @@ import com.example.remotedatabase.MahasiswaApplications
 
 
 object PenyediaViewModel {
+    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     val Factory = viewModelFactory {
         initializer { HomeViewModel(MahasiswaApp().container.mahasiswaRepository) }
         initializer { InsertViewModel(MahasiswaApp().container.mahasiswaRepository) }
