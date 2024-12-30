@@ -28,18 +28,19 @@ class HomeViewModel (private val mhs: MahasiswaRepository): ViewModel(){
     init {
         getMhs()
     }
-    fun getMhs(){
+    fun getMhs() {
         viewModelScope.launch {
             mhsUIState = HomeUiState.Loading
-            mhsUIState = try {
-                HomeUiState.Success(mhs.getMahasiswa())
-            } catch (e: IOException){
-                HomeUiState.Error
-            } catch (e: HttpException){
-                HomeUiState.Error
+            try {
+                val data = mhs.getMahasiswa()
+                mhsUIState = HomeUiState.Success(data)
+            } catch (e: Exception) {
+                println("Error loading mahasiswa: ${e.message}")
+                mhsUIState = HomeUiState.Error
             }
         }
     }
+
 
     @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     fun deleteMhs(nim: String){
