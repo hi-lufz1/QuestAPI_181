@@ -15,6 +15,8 @@ object PenyediaViewModel {
         initializer { HomeViewModel(MahasiswaApp().container.mahasiswaRepository) }
         initializer { InsertViewModel(MahasiswaApp().container.mahasiswaRepository) }
         initializer { DetailViewModel(MahasiswaApp().container.mahasiswaRepository) }
+        initializer { UpdateViewModel(MahasiswaApp().container.mahasiswaRepository) }
+
 
     }
 
