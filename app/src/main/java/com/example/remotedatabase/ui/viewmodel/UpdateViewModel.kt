@@ -1,5 +1,6 @@
 package com.example.remotedatabase.ui.viewmodel
 
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -42,7 +43,7 @@ class UpdateViewModel(private val repository: MahasiswaRepository) : ViewModel()
         }
     }
 
-    fun updateMahasiswa(onSuccess: () -> Unit, onError: () -> Unit) {
+    fun updateMahasiswa(onSuccess: () -> Unit, onError: @Composable () -> Unit) {
         viewModelScope.launch {
             try {
                 val mahasiswa = Mahasiswa(
