@@ -11,9 +11,11 @@ import androidx.navigation.compose.rememberNavController
 import com.example.remotedatabase.ui.view.DestinasiDetail
 import com.example.remotedatabase.ui.view.DestinasiEntry
 import com.example.remotedatabase.ui.view.DestinasiHome
+import com.example.remotedatabase.ui.view.DestinasiUpdate
 import com.example.remotedatabase.ui.view.DetailScreen
 import com.example.remotedatabase.ui.view.EntryMhsScreen
 import com.example.remotedatabase.ui.view.HomeScreen
+import com.example.remotedatabase.ui.view.UpdateScreen
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
@@ -47,9 +49,18 @@ fun PengelolaHalaman(
             val nim = backStackEntry.arguments?.getString("nim") ?: ""
             DetailScreen(
                 nim = nim,
+                navigateBack = { navController.popBackStack() },
+                navigateEdit = { navController.navigate("${DestinasiUpdate.route}/{nim}") }
+            )
+        }
+        composable(route = "${DestinasiUpdate.route}/{nim}") { backStackEntry ->
+            val nim = backStackEntry.arguments?.getString("nim") ?: ""
+            UpdateScreen(
+                nim = nim,
                 navigateBack = { navController.popBackStack() }
             )
         }
+
 
     }
 }

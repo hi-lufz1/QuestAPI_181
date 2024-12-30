@@ -3,6 +3,7 @@ package com.example.remotedatabase.ui.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.remotedatabase.model.Mahasiswa
@@ -15,15 +16,26 @@ sealed class DetailUiState {
     object Error : DetailUiState()
 }
 
-class DetailViewModel(private val mhs: MahasiswaRepository) : ViewModel() {
+class DetailViewModel(
+    private val repository: MahasiswaRepository,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
+
     var detailUiState by mutableStateOf<DetailUiState>(DetailUiState.Loading)
         private set
+
+    init {
+        val nim = savedStateHandle.get<String>("nim")
+        nim?.let {
+            getMahasiswaDetail(it)
+        }
+    }
 
     fun getMahasiswaDetail(nim: String) {
         viewModelScope.launch {
             detailUiState = DetailUiState.Loading
             try {
-                val mahasiswa = mhs.getMahasiswaByID(nim)
+                val mahasiswa = repository.getMahasiswaByID(nim)
                 detailUiState = DetailUiState.Success(mahasiswa)
             } catch (e: Exception) {
                 detailUiState = DetailUiState.Error

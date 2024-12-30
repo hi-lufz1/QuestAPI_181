@@ -1,19 +1,32 @@
 package com.example.remotedatabase.ui.viewmodel
 
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.remotedatabase.model.Mahasiswa
 import com.example.remotedatabase.repository.MahasiswaRepository
 import kotlinx.coroutines.launch
 
-class UpdateViewModel(private val repository: MahasiswaRepository) : ViewModel() {
+class UpdateViewModel(
+    private val repository: MahasiswaRepository,
+    savedStateHandle: SavedStateHandle
+) : ViewModel() {
+
     var uiState by mutableStateOf(UpdateUiState())
         private set
 
+    // Menyimpan dan memuat data ke SaveStateHandle
+    init {
+        val nim = savedStateHandle.get<String>("nim")
+        nim?.let {
+            loadMahasiswa(it)
+        }
+    }
+
+    // Memuat data mahasiswa berdasarkan nim
     fun loadMahasiswa(nim: String) {
         viewModelScope.launch {
             try {
@@ -32,6 +45,7 @@ class UpdateViewModel(private val repository: MahasiswaRepository) : ViewModel()
         }
     }
 
+    // Memperbarui state untuk setiap field
     fun updateField(fieldName: String, value: String) {
         uiState = when (fieldName) {
             "nama" -> uiState.copy(nama = value)
@@ -43,7 +57,8 @@ class UpdateViewModel(private val repository: MahasiswaRepository) : ViewModel()
         }
     }
 
-    fun updateMahasiswa(onSuccess: () -> Unit, onError: @Composable () -> Unit) {
+    // Menyimpan data mahasiswa yang telah diperbarui
+    fun updateMahasiswa(onSuccess: () -> Unit, onError: () -> Unit) {
         viewModelScope.launch {
             try {
                 val mahasiswa = Mahasiswa(
@@ -63,6 +78,7 @@ class UpdateViewModel(private val repository: MahasiswaRepository) : ViewModel()
         }
     }
 }
+
 
 data class UpdateUiState(
     val nim: String = "",

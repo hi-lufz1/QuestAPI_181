@@ -21,16 +21,17 @@ object DestinasiUpdate : DestinasiNavigasi {
     override val titleRes = "Update Mhs"
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UpdateScreen(
     nim: String,
     navigateBack: () -> Unit,
+    modifier: Modifier = Modifier,
     viewModel: UpdateViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
     LaunchedEffect(nim) {
-        viewModel.loadMahasiswa(nim) // Load data untuk di-update
+        viewModel.loadMahasiswa(nim)
     }
 
     Scaffold(
@@ -42,74 +43,62 @@ fun UpdateScreen(
             )
         }
     ) { innerPadding ->
-        FormUpdate(
-            viewModel = viewModel,
-            onSaveClick = {
-                viewModel.updateMahasiswa(
-                    onSuccess = { navigateBack() },
-                    onError = { Text(stringResource(R.string.retry)) }
-                )
-            },
-            isUpdate = true,
-            modifier = Modifier.padding(innerPadding)
-        )
-    }
-}
-
-@Composable
-fun FormUpdate(
-    viewModel: UpdateViewModel,
-    onSaveClick: () -> Unit,
-    isUpdate: Boolean = false,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        OutlinedTextField(
-            value = viewModel.uiState.nama,
-            onValueChange = { viewModel.updateField("nama", it) },
-            label = { Text("Nama") },
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true
-        )
-        OutlinedTextField(
-            value = viewModel.uiState.nim,
-            onValueChange = { viewModel.updateField("nim", it) },
-            label = { Text("NIM") },
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true,
-            enabled = !isUpdate // NIM tidak bisa diubah
-        )
-        OutlinedTextField(
-            value = viewModel.uiState.alamat,
-            onValueChange = { viewModel.updateField("alamat", it) },
-            label = { Text("Alamat") },
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true
-        )
-        OutlinedTextField(
-            value = viewModel.uiState.kelas,
-            onValueChange = { viewModel.updateField("kelas", it) },
-            label = { Text("Kelas") },
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true
-        )
-        OutlinedTextField(
-            value = viewModel.uiState.angkatan,
-            onValueChange = { viewModel.updateField("angkatan", it) },
-            label = { Text("Angkatan") },
-            modifier = Modifier.fillMaxWidth(),
-            singleLine = true
-        )
-        Button(
-            onClick = onSaveClick,
-            modifier = Modifier.fillMaxWidth()
+        Column(
+            modifier = modifier
+                .padding(innerPadding)
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text("Simpan")
+            OutlinedTextField(
+                value = viewModel.uiState.nama,
+                onValueChange = { viewModel.updateField("nama", it) },
+                label = { Text("Nama") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+            OutlinedTextField(
+                value = viewModel.uiState.alamat,
+                onValueChange = { viewModel.updateField("alamat", it) },
+                label = { Text("Alamat") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+            OutlinedTextField(
+                value = viewModel.uiState.jenisKelamin,
+                onValueChange = { viewModel.updateField("jenisKelamin", it) },
+                label = { Text("Jenis Kelamin") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+            OutlinedTextField(
+                value = viewModel.uiState.kelas,
+                onValueChange = { viewModel.updateField("kelas", it) },
+                label = { Text("Kelas") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+            OutlinedTextField(
+                value = viewModel.uiState.angkatan,
+                onValueChange = { viewModel.updateField("angkatan", it) },
+                label = { Text("Angkatan") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+
+            Button(
+                onClick = {
+                    viewModel.updateMahasiswa(
+                        onSuccess = { navigateBack() },
+                        onError = {  }
+                    )
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp)
+            ) {
+                Text("Update")
+            }
         }
     }
 }
