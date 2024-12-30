@@ -37,7 +37,7 @@ fun UpdateScreen(
     Scaffold(
         topBar = {
             CostumeTopAppBar(
-                title = "Update Mahasiswa",
+                title = "Update Data",
                 canNavigateBack = true,
                 navigateUp = navigateBack
             )
