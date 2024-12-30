@@ -3,6 +3,8 @@ package com.example.remotedatabase.ui.view
 import android.os.Build
 import androidx.annotation.RequiresExtension
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -28,6 +30,7 @@ object DestinasiDetail : DestinasiNavigasi {
 fun DetailScreen(
     nim: String,
     navigateBack: () -> Unit,
+    navigateEdit: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: DetailViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
@@ -44,6 +47,14 @@ fun DetailScreen(
                 canNavigateBack = true,
                 navigateUp = navigateBack
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = navigateEdit,
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Icon(imageVector = Icons.Filled.Edit, contentDescription = "Edit")
+            }
         }
     ) { innerPadding ->
         when (uiState) {
