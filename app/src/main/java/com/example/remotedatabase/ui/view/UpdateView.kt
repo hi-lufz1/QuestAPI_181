@@ -104,8 +104,12 @@ fun UpdateScreen(
                     .fillMaxWidth()
                     .padding(top = 16.dp)
             ) {
-                Text("Update")
+                Text("Simpan")
             }
+            Divider(
+                thickness = 5.dp,
+                modifier = Modifier.padding(5.dp)
+            )
         }
     }
 }
