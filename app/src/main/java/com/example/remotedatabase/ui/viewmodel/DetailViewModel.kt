@@ -17,8 +17,8 @@ sealed class DetailUiState {
 }
 
 class DetailViewModel(
+    savedStateHandle: SavedStateHandle,
     private val repository: MahasiswaRepository,
-    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     var detailUiState by mutableStateOf<DetailUiState>(DetailUiState.Loading)

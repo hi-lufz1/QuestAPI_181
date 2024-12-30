@@ -58,6 +58,13 @@ fun UpdateScreen(
                 singleLine = true
             )
             OutlinedTextField(
+                value = viewModel.uiState.nim,
+                onValueChange = { viewModel.updateField("Nim", it) },
+                label = { Text("Nim") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true
+            )
+            OutlinedTextField(
                 value = viewModel.uiState.alamat,
                 onValueChange = { viewModel.updateField("alamat", it) },
                 label = { Text("Alamat") },

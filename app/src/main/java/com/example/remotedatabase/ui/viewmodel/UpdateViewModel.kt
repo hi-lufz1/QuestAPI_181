@@ -11,8 +11,8 @@ import com.example.remotedatabase.repository.MahasiswaRepository
 import kotlinx.coroutines.launch
 
 class UpdateViewModel(
+    savedStateHandle: SavedStateHandle,
     private val repository: MahasiswaRepository,
-    savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     var uiState by mutableStateOf(UpdateUiState())
